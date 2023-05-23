@@ -17,8 +17,17 @@ app.get("/", (req, res) => {
 });
 
 app.get("/books", (req, res) => {
-  const q = "SELECT * FROM DB.books";
+  const q = "SELECT * FROM books";
   db.query(q, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
+app.get("/books/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q = "SELECT * FROM books WHERE id = ?";
+  db.query(q, [bookId], (err, data) => {
     if (err) return res.json(err);
     return res.json(data);
   });
